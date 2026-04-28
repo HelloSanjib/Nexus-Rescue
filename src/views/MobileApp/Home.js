@@ -7,6 +7,13 @@ export default function Home() {
   const navigate = useNavigate();
   const { setIsMenuOpen } = useEmergency();
 
+  const [shared, setShared] = React.useState(false);
+
+  const handleShareLocation = () => {
+    setShared(true);
+    setTimeout(() => setShared(false), 3000);
+  };
+
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-white)', color: 'var(--text-light)' }}>
       {/* App Bar */}
@@ -19,8 +26,18 @@ export default function Home() {
         <Bell size={24} color="var(--primary-red)" />
       </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px 20px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px 20px', position: 'relative' }}>
         
+        {shared && (
+          <div style={{
+            position: 'absolute', top: '10px', backgroundColor: 'var(--success)', color: 'white',
+            padding: '10px 20px', borderRadius: '20px', fontSize: '12px', fontWeight: 'bold',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.1)', animation: 'slideDown 0.3s ease-out', zIndex: 100
+          }}>
+            Location Shared with Emergency Services
+          </div>
+        )}
+
         {/* Giant Panic Button */}
         <button 
           onClick={() => navigate('/triage')}
@@ -41,7 +58,7 @@ export default function Home() {
 
         {/* 3 Icons Row */}
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '0 10px', marginBottom: '40px' }}>
-          <ActionIcon icon={<MapPin size={28} color="white" />} label="Share location" bgColor="#2196f3" onClick={() => navigate('/triage')} />
+          <ActionIcon icon={<MapPin size={28} color="white" />} label="Share location" bgColor="#2196f3" onClick={handleShareLocation} />
           <ActionIcon icon={<Mic size={28} color="white" />} label="Voice Alert" bgColor="#ffb300" onClick={() => navigate('/triage')} />
           <ActionIcon icon={<Camera size={28} color="white" />} label="Capture Image" bgColor="#4caf50" onClick={() => navigate('/triage')} />
         </div>
@@ -59,6 +76,12 @@ export default function Home() {
         </button>
 
       </div>
+      <style>{`
+        @keyframes slideDown {
+          from { transform: translateY(-20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

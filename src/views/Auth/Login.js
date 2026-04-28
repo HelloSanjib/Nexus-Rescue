@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shield, Activity, HardHat } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Login() {
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +19,7 @@ export default function Login() {
     try {
       setError('');
       await login(email, password);
+      navigate('/home');
     } catch (err) {
       let friendlyError = 'Failed to log in or register.';
       if (err.code === 'auth/invalid-email') friendlyError = 'Invalid email address format.';
@@ -31,6 +34,7 @@ export default function Login() {
     try {
       setError('');
       await login(roleEmail, 'password123');
+      navigate('/home');
     } catch (err) {
       setError(`Quick login failed. Ensure ${roleEmail} is created in Firebase Auth with password 'password123'.`);
     }

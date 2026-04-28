@@ -62,7 +62,15 @@ export default function SafetyMap() {
             )}
           </GoogleMap>
         ) : (
-          <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#e0e0e0' }}>Loading Google Maps...</div>
+          <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f5f5f5', padding: '40px', textAlign: 'center' }}>
+            <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--light-red)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+              <Menu size={40} color="var(--primary-red)" />
+            </div>
+            <h3 style={{ color: 'var(--text-light)', marginBottom: '10px' }}>Maps Unavailable</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: '1.5' }}>
+              Google Maps API key is missing or invalid. Please configure <code>REACT_APP_GOOGLE_MAPS_API_KEY</code> in your environment settings.
+            </p>
+          </div>
         )}
       </div>
     </div>

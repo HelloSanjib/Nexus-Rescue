@@ -120,13 +120,29 @@ export default function MobileLayout() {
 
 function NavBtn({ icon, label, active, onClick }) {
   return (
-    <button onClick={onClick} style={{ 
-      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', 
-      cursor: 'pointer', color: active ? 'var(--primary-red)' : 'var(--text-muted)',
-      background: 'transparent', border: 'none', padding: '10px' 
-    }}>
-      {React.cloneElement(icon, { size: 24, strokeWidth: active ? 2.5 : 2 })}
-      <span style={{ fontSize: '10px', fontWeight: active ? 'bold' : 'normal' }}>{label}</span>
+    <button 
+      onClick={onClick} 
+      style={{ 
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', 
+        cursor: 'pointer', color: active ? 'var(--primary-red)' : 'var(--text-muted)',
+        background: 'transparent', border: 'none', padding: '10px',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: active ? 'scale(1.1)' : 'scale(1)',
+        flex: 1,
+        outline: 'none',
+        WebkitTapHighlightColor: 'transparent'
+      }}
+      onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.9)'}
+      onMouseUp={(e) => e.currentTarget.style.transform = active ? 'scale(1.1)' : 'scale(1)'}
+    >
+      <div style={{
+        backgroundColor: active ? 'var(--light-red)' : 'transparent',
+        padding: '6px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: '2px', transition: 'background-color 0.2s'
+      }}>
+        {React.cloneElement(icon, { size: 22, strokeWidth: active ? 2.5 : 2 })}
+      </div>
+      <span style={{ fontSize: '10px', fontWeight: active ? 'bold' : '500' }}>{label}</span>
     </button>
   );
 }

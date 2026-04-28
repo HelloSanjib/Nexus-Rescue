@@ -11,7 +11,11 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Bypass onAuthStateChanged for development
+    // Load persisted user from localStorage
+    const savedUser = localStorage.getItem('nexus_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
     setLoading(false);
   }, []);
 
@@ -29,11 +33,14 @@ export const AuthProvider = ({ children }) => {
     };
     
     setUser(mockUser);
+    localStorage.setItem('nexus_user', JSON.stringify(mockUser));
     return mockUser;
   };
 
   const logout = async () => {
     await signOut(auth);
+    setUser(null);
+    localStorage.removeItem('nexus_user');
   };
 
   return (
