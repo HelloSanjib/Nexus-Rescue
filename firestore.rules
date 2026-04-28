@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Core security rules for the Nexus-Rescue platform.
+    
+    // Validate incident data structure on creation
+    function isValidIncident() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['type', 'location', 'nodeId', 'timestamp', 'status']) &&
+             data.status in ['ACTIVE', 'RESPONDING', 'RESOLVED'];
+    }
+
+    // Incidents Collection
+    match /incidents/{incidentId} {
+      // Anyone (even without auth, via the mobile app) can broadcast an incident.
+      // In production, we'd rely on Device Attestation or anonymous auth tied to mesh node IDs.
+      allow create: if isValidIncident();
+      
+      // Only authenticated dashboard users (Authorities/Responders) can read and update (resolve) incidents
+      allow read, update: if request.auth != null && 
+                             exists(/databases/$(database)/documents/responders/$(request.auth.uid));
+                             
+      // Deletions strictly forbidden for audit logs
+      allow delete: if false;
+    }
+    
+    // Responders Collection
+    match /responders/{userId} {
+      // Responders can only read/update their own profile
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Nodes Collection
+    match /nodes/{nodeId} {
+      // Mesh nodes can broadcast their heartbeat
+      allow write: if true; // Unauthenticated write for emergency routing
+      allow read: if request.auth != null; // Only dashboard can read
+    }
+
+  }
+}
