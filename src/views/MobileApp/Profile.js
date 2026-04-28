@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import { useNavigate } from 'react-router-dom';
 import { Menu, LogOut, Settings, User as UserIcon, Shield } from 'lucide-react';
 import { useEmergency } from '../../context/EmergencyContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Profile() {
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const { setIsMenuOpen } = useEmergency();
   const { logout, user } = useAuth();

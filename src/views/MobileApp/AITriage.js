@@ -62,6 +62,7 @@ export default function AITriage() {
     }
 
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, navigate]); // Intentionally omitting reportEmergency
 
   return (

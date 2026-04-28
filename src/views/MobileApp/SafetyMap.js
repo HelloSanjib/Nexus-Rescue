@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { useNavigate } from 'react-router-dom';
 import { Menu, SlidersHorizontal } from 'lucide-react';
 import { useEmergency } from '../../context/EmergencyContext';
@@ -11,6 +12,7 @@ const fireIconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<s
 const userIconUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#4caf50" stroke="white" stroke-width="2"/></svg>');
 
 export default function SafetyMap() {
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const { setIsMenuOpen } = useEmergency();
   const { isLoaded } = useJsApiLoader({ id: 'google-map-script', googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "" });
