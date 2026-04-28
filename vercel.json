@@ -1,6 +1,4 @@
 {
-  "buildCommand": "cd Nexus-Rescue && npm install && npm run build",
-  "outputDirectory": "Nexus-Rescue/build",
   "rewrites": [
     {
       "source": "/(.*)",
